@@ -9,6 +9,8 @@ export const Home = () => {
 
 	const baseUrl = "https://www.swapi.tech/api/" // or: https://swapi.tech/api/   //
     
+	
+
 	const getCharacters = () => {
         fetch(`${baseUrl}people`)
 		.then((resp) =>{
@@ -18,12 +20,53 @@ export const Home = () => {
 		})
 		.then((data) => {
 			console.log("Data of Characters:", data);
-			return data
+			 dispatch({type:"set_character", payload:data.results})
 		})
+		.catch((error) => {
+			console.log("This is the error character",error);			
+		})
+	  };
+
+	  const getPlanets = () => {
+        fetch(`${baseUrl}planets`)
+		.then((resp) =>{
+			console.log("All the planets(rsp):", resp)
+			return resp.json()
+			
+		})
+		.then((data) => {
+			console.log("Data of planets:", data);
+			dispatch({type:"set_planets", payload:data.results})
+		})
+		.catch((error) => {
+			console.log("This is the error planets",error);
+			
+		})
+		
+    };
+
+	const getVehicles = () => {
+        fetch(`${baseUrl}vehicles`)
+		.then((resp) =>{
+			console.log("All the vehicles(rsp):", resp)
+			return resp.json()
+			
+		})
+		.then((data) => {
+			console.log("Data of vehicles:", data);
+			dispatch({type:"set_vehicles", payload:data.results})
+		})
+		.catch((error) => {
+			console.log("This is the error vehicles",error);
+			
+		})
+		
     };
 	
 
-
+ console.log(store,"Data stored");
+ 
+ 
 
 	const cardData = [
 		{
@@ -41,28 +84,15 @@ export const Home = () => {
 		
 	];
 	useEffect(() => {
-        getCharacters();
+        getCharacters()
+		getVehicles()
+		getPlanets()
     }, []);
 
 	return (
 		<div className="container">
 
-			<h1 className="text-center" style={{ fontSize: "40px", color: "red" }}>Characters</h1>
-			<div className="cards-characters  row">
-				{cardData.map((item) => (
-					<div key={item.id} className="card col-auto" style={{ width: "18rem", margin: "10px auto" }}>
-						<img src={item.imageUrl} className="card-img-top" alt={item.title} />
-						<div className="card-body">
-							<h5 className="card-title">{item.title}</h5>
-							<p className="card-text">{item.text}</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				))}
-			</div>
-
+			
 
 
 		</div>

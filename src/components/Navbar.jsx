@@ -21,25 +21,37 @@ export const Navbar = () => {
 					</Link>
 					<div className="dropdown">
 						<a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Dropdown link
+							Favorites
+							<span
+								style={{
+									width: "10px",
+									height: "10px",
+									backgroundColor: "#fff",
+									borderRadius: "50%",
+									display: "inline-block",
+									marginLeft: "10px"
+								}}
+								className="me-2"
+							/>
 						</a>
-
-						<ul className="dropdown-menu" style={{ left: 'auto', right: '-10px' }}>
+						<ul className="dropdown-menu" style={{ left: 'auto', right: '-2px' }}>
 							{store.favorites.length === 0 ? (
-								 <li className="dropdown-item">No favorites for now</li>
+								<li className="dropdown-item">No favorites for now</li>
 							) : (
 								store.favorites.map((item, index) => (
 									<React.Fragment key={index}>
-									<li className="dropdown-item">{item.name}</li>
-									{index < store.favorites.length - 1 && <hr style={{ width: '100%', margin: '0' }} />}
-									
-								</React.Fragment>
+										<li className="dropdown-item d-flex justify-content-between align-items-center">
+											{item.name}
+											<i className="fa-solid fa-trash r"></i>
+										</li>
+										{index < store.favorites.length - 1 && <hr style={{ width: '100%', margin: '0' }} />}
+									</React.Fragment>
 								))
 							)}
 						</ul>
 					</div>
 				</form>
-			</div>
+			</div >
 
 		</nav >
 	);

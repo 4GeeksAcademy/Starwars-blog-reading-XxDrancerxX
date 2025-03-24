@@ -3,7 +3,10 @@ export const initialStore = () => {
     characterData: [],
     planetsData: [],
     vehiclesData: [],
-    favorites:[]
+    favorites:[],
+    
+
+
 
   }
 }

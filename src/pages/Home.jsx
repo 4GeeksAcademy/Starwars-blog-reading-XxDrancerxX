@@ -6,9 +6,9 @@ import { useEffect } from "react";
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer();
-	
 
-	const baseUrl = "https://www.swapi.tech/api/" // or: https://swapi.tech/api/   //
+
+	const baseUrl = "https://swapi.dev/api/" // or: https://swapi.tech/api/   //
 
 
 
@@ -37,6 +37,8 @@ export const Home = () => {
 				console.log("This is the error planets", error);
 			})
 
+
+
 	};
 
 	const getVehicles = () => {
@@ -52,49 +54,42 @@ export const Home = () => {
 			})
 	};
 
-
-
-
-
-
-
 	useEffect(() => {
 		getCharacters()
 		getVehicles()
 		getPlanets()
 	}, []);
 
-const addFavoritesAndRemoveClick = (item) =>{
-	console.log("Clicked item:", item);
-    console.log("Current favorites:", store.favorites);
-	if (store.favorites.includes(item)) {
-        console.log("Removing from favorites:", item);
-        dispatch({ type: "remove_favorites", payload: item });
-        console.log("Updated favorites after removal:", store.favorites);
-    } else {
-        console.log("Adding to favorites:", item);
-        dispatch({ type: "add_favorites", payload: item });
-        console.log("Updated favorites after addition:", store.favorites);
-    }
-}
+	const addFavoritesAndRemoveClick = (item) => {
+
+		if (store.favorites.includes(item)) {
+			dispatch({ type: "remove_favorites", payload: item });
+		} else {
+			dispatch({ type: "add_favorites", payload: item });
+		}
+	}
+	console.log(store);
 
 	return (
 		<div className="container">
 			<h1 className="title" style={{ fontSize: "40px", color: "red" }}>Characters</h1>
 			<div className="cards-characters row">
 				{store.characterData.map((item, index) => (
-				  <div key={index} className="card col-auto" style={{ width: "18rem", margin: "10px auto", padding: "0" }}>
-						 <img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }}/>
+					<div key={index} className="card col-auto" style={{ width: "18rem", margin: "10px auto", padding: "0" }}>
+						<img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
 						<div className="card-body">
-							<h5 className="card-title">{item.name}</h5>
-							<p className="card-text">1</p>
-							<p className="card-text">2</p>
-							<p className="card-text">3</p>
-							<p className="card-text">{item.url}</p>
+							<h5 className="card-title"> {item.name}</h5>
+							<p className="card-text">Gender: {item.gender}</p>
+							<p className="card-text">Eye-color: {item.eye_color}</p>
+							<p className="card-text">Hair-color: {item.hair_color}</p>
+							<p className="card-text">Skin color: {item.skin_color}</p>
 							<a href="#" className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
 								Learn more
 							</a>
-							<button onClick={()=>{addFavoritesAndRemoveClick(item)}} className="btn btn-light">
+							{/* <Link to="/demo">
+								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
+							</Link> */}
+							<button onClick={() => { addFavoritesAndRemoveClick(item) }} className="btn btn-light">
 								<i className="fas fa-heart"></i>
 							</button>
 						</div>
@@ -107,8 +102,8 @@ const addFavoritesAndRemoveClick = (item) =>{
 			<h1 className="title-3" style={{ fontSize: "40px", color: "red" }}>Planets</h1>
 			<div className="cards-characters row">
 				{store.planetsData.map((item, index) => (
-				  <div key={index} className="card col-auto" style={{ width: "18rem", margin: "10px auto", padding: "0" }}>
-						 <img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }}/>
+					<div key={index} className="card col-auto" style={{ width: "18rem", margin: "10px auto", padding: "0" }}>
+						<img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
 						<div className="card-body">
 							<h5 className="card-title">{item.name}</h5>
 							<p className="card-text">1</p>
@@ -131,8 +126,8 @@ const addFavoritesAndRemoveClick = (item) =>{
 			<h1 className="title-2" style={{ fontSize: "40px", color: "red" }}>Vehicles</h1>
 			<div className="cards-characters row">
 				{store.vehiclesData.map((item, index) => (
-					 <div key={index} className="card col-auto" style={{ width: "18rem", margin: "10px auto", padding: "0" }}>
-						 <img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }}/>
+					<div key={index} className="card col-auto" style={{ width: "18rem", margin: "10px auto", padding: "0" }}>
+						<img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
 						<div className="card-body">
 							<h5 className="card-title">{item.name}</h5>
 							<p className="card-text">1</p>

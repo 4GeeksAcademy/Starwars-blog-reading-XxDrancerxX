@@ -1,6 +1,7 @@
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 
 
@@ -68,7 +69,14 @@ export const Home = () => {
 			dispatch({ type: "add_favorites", payload: item });
 		}
 	}
-	console.log(store);
+	
+	const getIdFromUrl = (url) => {
+		const parts = url.split("/");
+		return parts[parts.length - 2];
+	}
+	console.log(getIdFromUrl);
+	
+
 
 	return (
 		<div className="container">
@@ -83,12 +91,9 @@ export const Home = () => {
 							<p className="card-text">Eye-color: {item.eye_color}</p>
 							<p className="card-text">Hair-color: {item.hair_color}</p>
 							<p className="card-text">Skin color: {item.skin_color}</p>
-							<a href="#" className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
-								Learn more
-							</a>
-							{/* <Link to="/demo">
+							<Link to={`/people/${getIdFromUrl(item.url)}`}>
 								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
-							</Link> */}
+							</Link>
 							<button onClick={() => { addFavoritesAndRemoveClick(item) }} className="btn btn-light">
 								<i className="fas fa-heart"></i>
 							</button>
@@ -110,9 +115,9 @@ export const Home = () => {
 							<p className="card-text">2</p>
 							<p className="card-text">3</p>
 							<p className="card-text">{item.url}</p>
-							<a href="#" className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
-								Learn more
-							</a>
+							<Link to={`/planets/${getIdFromUrl(item.url)}`}>
+								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
+							</Link>
 							<button className="btn btn-light">
 								<i className="fas fa-heart"></i>
 							</button>
@@ -134,9 +139,9 @@ export const Home = () => {
 							<p className="card-text">2</p>
 							<p className="card-text">3</p>
 							<p className="card-text">{item.url}</p>
-							<a href="#" className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
-								Learn more
-							</a>
+							<Link to={`/vehicles/${getIdFromUrl(item.url)}`}>
+								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
+							</Link>
 							<button className="btn btn-light">
 								<i className="fas fa-heart"></i>
 							</button>

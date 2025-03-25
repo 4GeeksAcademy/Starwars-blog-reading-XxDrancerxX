@@ -10,16 +10,15 @@ export const Navbar = () => {
 	return (
 		<nav className="navbar bg-body-tertiary">
 			<div className="container-fluid">
-				<Link to="/">
-					<div className="navbar-brand">
-						<img style={{ width: "92px", height: "50px" }} src={starWarsImageUrl} alt="Star Wars Iocn" />
-					</div>
-				</Link>
+				<div className="navbar-brand">
+					<img style={{ width: "92px", height: "50px" }} src={starWarsImageUrl} alt="Star Wars Iocn" />
+				</div>
+
 				<form className="d-flex" role="search">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
 					<div className="dropdown">
+						<Link to="/">
+							<button className="btn btn-primary">Back home</button>
+						</Link>
 						<a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							Favorites
 							<span
@@ -34,6 +33,7 @@ export const Navbar = () => {
 								className="me-2"
 							/>
 						</a>
+
 						<ul className="dropdown-menu" style={{ left: 'auto', right: '-2px' }}>
 							{store.favorites.length === 0 ? (
 								<li className="dropdown-item">No favorites for now</li>

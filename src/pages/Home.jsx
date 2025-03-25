@@ -69,13 +69,15 @@ export const Home = () => {
 			dispatch({ type: "add_favorites", payload: item });
 		}
 	}
-	
+
 	const getIdFromUrl = (url) => {
+		console.log("item.url:", url); // Log the SWAPI URL
 		const parts = url.split("/");
-		return parts[parts.length - 2];
-	}
-	console.log(getIdFromUrl);
-	
+		const id = parts[parts.length - 2];
+		console.log("Extracted ID:", id); // Log the extracted ID
+		return id;
+	};
+
 
 
 	return (
@@ -91,9 +93,15 @@ export const Home = () => {
 							<p className="card-text">Eye-color: {item.eye_color}</p>
 							<p className="card-text">Hair-color: {item.hair_color}</p>
 							<p className="card-text">Skin color: {item.skin_color}</p>
-							<Link to={`/people/${getIdFromUrl(item.url)}`}>
-								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
-							</Link>
+							{(() => {
+								const characterLink = `/people/${getIdFromUrl(item.url)}`;
+								console.log("Character Link URL:", characterLink);
+								return (
+									<Link to={characterLink} className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
+										Learn More
+									</Link>
+								);
+							})()}
 							<button onClick={() => { addFavoritesAndRemoveClick(item) }} className="btn btn-light">
 								<i className="fas fa-heart"></i>
 							</button>

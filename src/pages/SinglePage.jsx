@@ -4,7 +4,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for ac
 import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
-
+import { getIdFromUrl } from "./Home";
 
 export const SinglePage = () => {
   const [item, setItem] = useState(null);
@@ -41,6 +41,53 @@ export const SinglePage = () => {
 
   }, [id, type]);
 
+
+
+  const displayProperties = {
+    people: {
+      description: [
+        { key: "created", label: "Created" },
+        { key: "edited", label: "Edited" },
+        { key: "homeworld", label: "Homeworld" },
+      ],
+      attributes: [
+        { key: "birth_year", label: "Birth year" },
+        { key: "height", label: "Height" },
+        { key: "mass", label: "Mass" },
+        { key: "skin_color", label: "Skin color" },
+      ],
+    },
+    planets: {
+      description: [
+        { key: "climate", label: "Climate" },
+        { key: "diameter", label: "Diameter" },
+        { key: "gravity", label: "Gravity" },
+      ],
+      attributes: [
+        { key: "orbital_period", label: "Orbital Period" },
+        { key: "terrain", label: "Terrain" },
+        { key: "population", label: "Population" },
+        { key: "surface_water", label: "Surface water" },
+      ],
+    },
+    vehicles: {
+      description: [
+        { key: "crew", label: "Crew" },
+        { key: "manufacturer", label: "Manufacturer" },
+        { key: "length", label: "Length" },
+      ],
+      attributes: [
+        { key: "max_atmosphering_speed", label: "Max Atmosphering Speed" },
+        { key: "model", label: "Model" },
+        { key: "passengers", label: "Passengers" },
+        { key: "vehicle_class", label: "Vehicle Class" },
+      ],
+    },
+  };
+
+  if (!displayProperties[type]) {
+    return <div>Unknown type</div>;
+  }
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -48,38 +95,39 @@ export const SinglePage = () => {
     <div className="container" >
       <div className="row row-content">
         <div className="col-6">
-          <img className="img-fluid" src={rigoImageUrl} alt={id} />
+          <img className="img-fluid" style={{ width: "100%" }} src={rigoImageUrl} alt={id} />
         </div>
         <div className="col-6">
           <h4>{item.name}</h4>
-          <p className="content">This is the content for the second column.</p>
+          {displayProperties[type].description.map(
+            ({ key, label }, index) => {
+              return (
+                <p key={index} className="content">
+                  {label}: {item[key] || "Unknown"}
+                </p>
+
+              )
+            }
+          )}
         </div>
       </div>
 
       <hr className="my-4" />
 
       <div className="row row-attributes">
-        <div className="col-3">
-          <h4>Birth year:</h4>
-          <p>{item.birth_year}</p>
-        </div>
-        <div className="col-3">
-          <h4>Height:</h4>
-          <p>{item.height}</p>
-        </div>
-        <div className="col-3">
-          <h4>Mass:</h4>
-          <p>{item.mass}</p>
-          
-        </div>
-        <div className="col-3">
-          <h4>Starships</h4>
-          <p>{item.starships[0]}</p>
-          <p>{item.starships[1]}</p>
-        </div>
+        {displayProperties[type].attributes.map(
+          ({ key, label }, index) => {
+            return (
+              <div key={index} className="col-3">
+                <h4>{label}</h4>
+                <p>{item[key]|| "Unknown"} </p>
+              </div>
+
+            )
+          }
+        )}
+
+
       </div>
-
-
-    </div>
-  );
+    </div>)
 };

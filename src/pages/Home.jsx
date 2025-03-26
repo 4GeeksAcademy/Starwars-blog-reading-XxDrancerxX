@@ -3,62 +3,88 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
+export const getIdFromUrl = (url) => {
+	console.log("item.url:", url); 
+	const parts = url.split("/");
+	const id = parts[parts.length - 2];
+	console.log("Extracted ID:", id); 
+	return id;
+};
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer();
+	const [loading, setLoading] = useState(true);
 
 
 	const baseUrl = "https://swapi.dev/api/" // or: https://swapi.tech/api/   //
 
+	const allPromises = Promise.all([
+		fetch(`${baseUrl}people`).then(resp => resp.json()),
+		fetch(`${baseUrl}planets`).then(resp => resp.json()),
+		fetch(`${baseUrl}vehicles`).then(resp => resp.json()),
+	  ])
+		.then(([peopleData, planetsData, vehiclesData]) => {
+		  dispatch({ type: "set_character", payload: peopleData.results });
+		  dispatch({ type: "set_planets", payload: planetsData.results });
+		  dispatch({ type: "set_vehicles", payload: vehiclesData.results });
+		  setLoading(false);
+		})
+		.catch(error => {
+		  console.error(error);
+		  setLoading(false);
+		});
+
+	// const getCharacters = () => {
+	// 	fetch(`${baseUrl}people`)
+	// 		.then((resp) => {
+	// 			return resp.json()
+	// 		})
+	// 		.then((data) => {
+	// 			dispatch({ type: "set_character", payload: data.results })
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log("This is the error character", error);
+	// 		})
+	// };
+
+	// const getPlanets = () => {
+	// 	fetch(`${baseUrl}planets`)
+	// 		.then((resp) => {
+	// 			return resp.json()
+	// 		})
+	// 		.then((data) => {
+
+	// 			dispatch({ type: "set_planets", payload: data.results })
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log("This is the error planets", error);
+	// 		})
 
 
-	const getCharacters = () => {
-		fetch(`${baseUrl}people`)
-			.then((resp) => {
-				return resp.json()
-			})
-			.then((data) => {
-				dispatch({ type: "set_character", payload: data.results })
-			})
-			.catch((error) => {
-				console.log("This is the error character", error);
-			})
-	};
 
-	const getPlanets = () => {
-		fetch(`${baseUrl}planets`)
-			.then((resp) => {
-				return resp.json()
-			})
-			.then((data) => {
-				dispatch({ type: "set_planets", payload: data.results })
-			})
-			.catch((error) => {
-				console.log("This is the error planets", error);
-			})
+	// };
 
+	// const getVehicles = () => {
+	// 	fetch(`${baseUrl}vehicles`)
+	// 		.then((resp) => {
+	// 			return resp.json()
+	// 		})
+	// 		.then((data) => {
+	// 			dispatch({ type: "set_vehicles", payload: data.results })
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log("This is the error vehicles", error);
+	// 		})
+	// };
 
-
-	};
-
-	const getVehicles = () => {
-		fetch(`${baseUrl}vehicles`)
-			.then((resp) => {
-				return resp.json()
-			})
-			.then((data) => {
-				dispatch({ type: "set_vehicles", payload: data.results })
-			})
-			.catch((error) => {
-				console.log("This is the error vehicles", error);
-			})
-	};
-
+	// useEffect(() => {
+	// 	getCharacters()
+	// 	getVehicles()
+	// 	getPlanets()
+	// }, []);
+	
 	useEffect(() => {
-		getCharacters()
-		getVehicles()
-		getPlanets()
+		allPromises
 	}, []);
 
 	const addFavoritesAndRemoveClick = (item) => {
@@ -70,13 +96,7 @@ export const Home = () => {
 		}
 	}
 
-	const getIdFromUrl = (url) => {
-		console.log("item.url:", url); // Log the SWAPI URL
-		const parts = url.split("/");
-		const id = parts[parts.length - 2];
-		console.log("Extracted ID:", id); // Log the extracted ID
-		return id;
-	};
+
 
 
 
@@ -92,16 +112,9 @@ export const Home = () => {
 							<p className="card-text">Gender: {item.gender}</p>
 							<p className="card-text">Eye-color: {item.eye_color}</p>
 							<p className="card-text">Hair-color: {item.hair_color}</p>
-							<p className="card-text">Skin color: {item.skin_color}</p>
-							{(() => {
-								const characterLink = `/people/${getIdFromUrl(item.url)}`;
-								console.log("Character Link URL:", characterLink);
-								return (
-									<Link to={characterLink} className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
-										Learn More
-									</Link>
-								);
-							})()}
+							<Link to={`/people/${getIdFromUrl(item.url)}`} className="btn btn-primary mr-3" style={{ marginRight: "35%" }}>
+								Learn More
+							</Link>
 							<button onClick={() => { addFavoritesAndRemoveClick(item) }} className="btn btn-light">
 								<i className="fas fa-heart"></i>
 							</button>
@@ -119,10 +132,9 @@ export const Home = () => {
 						<img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
 						<div className="card-body">
 							<h5 className="card-title">{item.name}</h5>
-							<p className="card-text">1</p>
-							<p className="card-text">2</p>
-							<p className="card-text">3</p>
-							<p className="card-text">{item.url}</p>
+							<p className="card-text">Climate: {item.climate}</p>
+							<p className="card-text">Diameter: {item.diameter}</p>
+							<p className="card-text">Gravity: {item.gravity}</p>
 							<Link to={`/planets/${getIdFromUrl(item.url)}`}>
 								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
 							</Link>
@@ -143,10 +155,9 @@ export const Home = () => {
 						<img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
 						<div className="card-body">
 							<h5 className="card-title">{item.name}</h5>
-							<p className="card-text">1</p>
-							<p className="card-text">2</p>
-							<p className="card-text">3</p>
-							<p className="card-text">{item.url}</p>
+							<p className="card-text">Cargo capacity: {item.cargo_capacity}</p>
+							<p className="card-text">Consumables: {item.consumables}</p>
+							<p className="card-text">Cost in Credits: {item.cost_in_credits}</p>
 							<Link to={`/vehicles/${getIdFromUrl(item.url)}`}>
 								<button style={{ marginRight: "35%" }} className="btn btn-primary mr-3">Learn More</button>
 							</Link>

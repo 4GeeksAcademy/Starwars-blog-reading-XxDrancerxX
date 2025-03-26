@@ -88,7 +88,14 @@ export const SinglePage = () => {
   if (!displayProperties[type]) {
     return <div>Unknown type</div>;
   }
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div className="text-center my-5">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading data...</p>
+    </div>
+  );
   if (error) return <div>{error}</div>;
 
   return (

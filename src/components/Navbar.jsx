@@ -20,27 +20,30 @@ export const Navbar = () => {
 						<Link to="/">
 							<button className="btn btn-primary">Back home</button>
 						</Link>
-						<a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<button
+							className="btn btn-primary dropdown-toggle"
+							type="button"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+						>
 							Favorites
 							<span
+								className="ms-2"
 								style={{
-									width: "12px", // Slightly larger than original to fit the number
-									height: "12px",
+									width: "16px",
+									height: "16px",
 									backgroundColor: "#fff",
 									borderRadius: "50%",
-									display: "flex",
+									display: "inline-flex",
 									justifyContent: "center",
 									alignItems: "center",
-									marginLeft: "10px",
-									fontSize: "8px", // Smaller font size to fit
-									color: "#000",
+									fontSize: "10px",
+									color: "#000"
 								}}
-								className="me-2"
 							>
 								{store.favorites.length}
 							</span>
-						</a>
-
+						</button>
 						<ul className="dropdown-menu" style={{ left: "auto", right: "-2px", minWidth: "150px" }}>
 							{store.favorites.length === 0 ? (
 								<li className="dropdown-item">No favorites for now</li>

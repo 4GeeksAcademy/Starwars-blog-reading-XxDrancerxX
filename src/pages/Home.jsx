@@ -15,6 +15,7 @@ export const Home = () => {
   const { store, dispatch } = useGlobalReducer();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log("Home component rendered");
 
   const baseUrl = "https://swapi.dev/api/";
 
@@ -65,7 +66,7 @@ export const Home = () => {
       <div className="horizontal-scroll">
         {store.characterData?.map((item, index) => (
           <div key={index} className="card " style={{ width: "18rem", marginRight: "10px", padding: "0" }}>
-            <img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
+            <img src="https://images.alphacoders.com/251/251641.jpg" className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
               <p className="card-text">Gender: {item.gender}</p>
@@ -88,7 +89,7 @@ export const Home = () => {
       <div className="horizontal-scroll">
         {store.planetsData?.map((item, index) => (
           <div key={index} className="card " style={{ width: "18rem", marginRight: "10px", padding: "0" }}>
-            <img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
+            <img src="https://upload.wikimedia.org/wikipedia/en/6/6d/Tatooine_%28fictional_desert_planet%29.jpg" className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
               <p className="card-text">Climate: {item.climate}</p>
@@ -111,7 +112,7 @@ export const Home = () => {
       <div className="horizontal-scroll">
         {store.vehiclesData?.map((item, index) => (
           <div key={index} className="card " style={{ width: "18rem", marginRight: "10px", padding: "0" }}>
-            <img src={rigoImageUrl} className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
+            <img src="https://images2.alphacoders.com/887/887783.jpg" className="card-img-top" alt={item.name} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
               <p className="card-text">Cargo capacity: {item.cargo_capacity}</p>

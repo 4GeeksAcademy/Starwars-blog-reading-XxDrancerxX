@@ -14,6 +14,7 @@ export const SinglePage = () => {
   const { id } = useParams();
   const location = useLocation();
   const type = location.pathname.split("/")[1];
+  console.log(`SinglePage rendered for ${type}/${id}`);
 
   useEffect(() => {
     setLoading(true);
@@ -102,7 +103,7 @@ export const SinglePage = () => {
     <div className="container" >
       <div className="row row-content">
         <div className="col-6">
-          <img className="img-fluid" style={{ width: "100%" }} src={rigoImageUrl} alt={id} />
+          <img className="img-fluid" style={{ width: "100%" }} src="https://images.alphacoders.com/251/251641.jpg" alt={id} />
         </div>
         <div className="col-6">
           <h4>{item.name}</h4>
